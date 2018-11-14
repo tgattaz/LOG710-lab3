@@ -1,63 +1,61 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
 
-typedef struct bloc {
-	int size;
-	int offset; //adresse
-	int etat;
-} bloc;
-
-struct node
-{
-	struct bloc *valeur;
-    struct node *p_next;
-    struct node *p_prev;
-} node;
-
-
-struct node* initmem(int size_memory){
+struct node* init_mem(int size_memory){
 
   	struct bloc *bloc = malloc(sizeof(bloc));
 	bloc->size = size_memory;
-	bloc->offset = 0;
-	bloc->etat = 0;
+	bloc->adress = 0;
+	bloc->state = 0;
 
 	struct node *root = malloc(sizeof(node));
-	root->valeur = bloc;
+	root->value = bloc;
 	root->p_prev = NULL;
 	root->p_next = NULL;
 
 	return root;
 }
 
-int allouem(int size_bloc){
-	struct node *nodecourrant = root;
-	struct bloc *bloccourant = bloccourant->etat;
-  struct bloc *blocallocation = NULL;
+int allou_mem(int size_bloc, struct node *current_node){
 
-	while(blocallocation == NULL) {
-	        if(bloccourant->etat == 0 && bloccourant->size >= size_bloc) {
+	if(size_bloc == current_node->value->size){
+		current_node->value->state = 1;	
+	}
+	else{
+			struct node *new_node;
 
+			struct bloc *new_bloc = NULL;
+			new_bloc->size = size_bloc;
+			new_bloc->state =1;
+			new_bloc->adress = current_node->value->adress;
 
-	                }
+			current_node->value->adress = current_node->valeur->adress + size_bloc;
+
+			current_node->p_prev->p_next = new_node;
+			
+			new_node->p_prev = current_node->p_prev; 
+			new_node->p_next = current_node;
+			new_node->value = nouveau_bloc;
+
+			current_node->p_prev = new_node;
+	}
+
 
 	return 0;
 }
 
-int nbloclibres(){
+int n_bloc_libres(){
 
 	return 0;
 }
 
-int nblocalloues(){
+int n_bloc_alloues(){
 
 
 	return 0;
 }
 
 
-int memlibre(){
+int mem_libre(){
 
 
 	return 0;
@@ -87,5 +85,5 @@ int main() {
     printf("Hello, World!\n");
     return 0;
 
-	struct node* root = initmem(1000);
+	//struct node* root = init_mem(1000);
 }
