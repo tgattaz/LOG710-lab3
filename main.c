@@ -36,6 +36,12 @@ int allouem(int size_bloc){
 	struct bloc *bloccourant = bloccourant->etat;
   struct bloc *blocallocation = NULL;
 
+	while(blocallocation == NULL) {
+	        if(bloccourant->etat == 0 && bloccourant->size >= size_bloc) {
+
+
+	                }
+
 	return 0;
 }
 
