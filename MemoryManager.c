@@ -3,7 +3,7 @@
 
 typedef struct bloc {
 	int size;
-	int offset;
+	int offset; //adresse
 	void *data;
 } bloc;
 
@@ -15,14 +15,7 @@ struct node
     struct node *p_prev;
 };
 
-typedef struct dlist
-{
-    size_t length;
-    struct node *p_tail;
-    struct node *p_head;
-} Dlist;
-
-Dlist *list = NULL; /* Déclaration d'une liste vide */
+struct node *root = NULL;
 
 int main() {
 
