@@ -31,8 +31,7 @@ void initmem(int size_memory){
 
 }
 
-int allouem(int size_memory){
-
+int allouem(int size_memory)
 
 
 	return 0;
@@ -75,6 +74,7 @@ int mem_est_alloue(int pOctet){
 	return 0;
 }
 
+//chercher adr phys d'un espace memoire de la taille demandé par init mem et on ne touche plus a
 int main() {
     printf("Hello, World!\n");
     return 0;
