@@ -10,24 +10,23 @@ typedef struct bloc {
 
 struct node
 {
-    int data;
-  	struct bloc *valeur;
+	struct bloc *valeur;
     struct node *p_next;
     struct node *p_prev;
-};
+} node;
 
 struct node *root = NULL;
 
 void initmem(int size_memory){
   struct bloc *bloc = malloc(sizeof(bloc));
-	bloc->size = memSize;
+	bloc->size = size_memory;
 	bloc->offset = 0;
 	bloc->data = NULL;
 
 	root = malloc(sizeof(node));
-	root->value = bloc;
-	root->previous = NULL;
-	root->next = NULL;
+	root->valeur = bloc;
+	root->p_prev = root;
+	root->p_next = root;
 
 }
 
