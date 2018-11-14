@@ -34,6 +34,7 @@ struct node* initmem(int size_memory){
 int allouem(int size_bloc){
 	struct node *nodecourrant = root;
 	struct bloc *bloccourant = bloccourant->etat;
+  struct bloc *blocallocation = NULL;
 
 	return 0;
 }
