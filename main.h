@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void initmem(int size_memory);
+struct node* initmem(int size_memory);
 int allouem(int size_memory);
 int nbloclibres();
 int nblocalloues();

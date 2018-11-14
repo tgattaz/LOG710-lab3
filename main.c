@@ -5,33 +5,33 @@
 typedef struct bloc {
 	int size;
 	int offset; //adresse
-	void *data;
-	int statut;
+	int etat;
 } bloc;
 
 struct node
 {
-		struct bloc *valeur;
+	struct bloc *valeur;
     struct node *p_next;
     struct node *p_prev;
 } node;
 
-struct node *root = NULL;
 
-void initmem(int size_memory){
-  struct bloc *bloc = malloc(sizeof(bloc));
+struct node* initmem(int size_memory){
+
+  	struct bloc *bloc = malloc(sizeof(bloc));
 	bloc->size = size_memory;
 	bloc->offset = 0;
-	bloc->data = NULL;
+	bloc->etat = 0;
 
-	root = malloc(sizeof(node));
+	struct node *root = malloc(sizeof(node));
 	root->valeur = bloc;
 	root->p_prev = NULL;
 	root->p_next = NULL;
-
+	
+	return root;
 }
 
-int allouem(int size_memory)
+int allouem(int size_memory){
 
 
 	return 0;
@@ -78,4 +78,6 @@ int mem_est_alloue(int pOctet){
 int main() {
     printf("Hello, World!\n");
     return 0;
+
+	struct node* root = initmem(1000);
 }
