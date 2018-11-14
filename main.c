@@ -6,11 +6,12 @@ typedef struct bloc {
 	int size;
 	int offset; //adresse
 	void *data;
+	int statut;
 } bloc;
 
 struct node
 {
-	struct bloc *valeur;
+		struct bloc *valeur;
     struct node *p_next;
     struct node *p_prev;
 } node;
@@ -25,8 +26,8 @@ void initmem(int size_memory){
 
 	root = malloc(sizeof(node));
 	root->valeur = bloc;
-	root->p_prev = root;
-	root->p_next = root;
+	root->p_prev = NULL;
+	root->p_next = NULL;
 
 }
 
