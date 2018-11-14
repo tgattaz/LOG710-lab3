@@ -27,12 +27,13 @@ struct node* initmem(int size_memory){
 	root->valeur = bloc;
 	root->p_prev = NULL;
 	root->p_next = NULL;
-	
+
 	return root;
 }
 
-int allouem(int size_memory){
-
+int allouem(int size_bloc){
+	struct node *nodecourrant = root;
+	struct bloc *bloccourant = bloccourant->etat;
 
 	return 0;
 }
