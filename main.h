@@ -1,25 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 typedef struct bloc {
 	int size;
-	int adress;
+	int address;
 	int state;
 } bloc;
 
-struct node
-{
-	struct bloc* value
-    struct node* p_next;
+typedef struct node {
+	bloc* value;
     struct node* p_prev;
+    struct node* p_next;
 } node;
 
 
-struct node* init_mem(int size_memory);
-int allou_mem(int size_bloc, struct node *current_node);
-int n_bloc_libres();
-int n_bloc_alloues();
-int mem_libre();
-int mem_pgrand_libre();
-int mem_small_free(int max_taille_petit);
-int mem_est_alloue(int pOctet);
+node* init_mem(int size_memory);
+node* allou_mem(int size_bloc, struct node *free_node);
+int n_bloc_libres(node* memory_root);
+int n_bloc_alloues(node* memory_root);
+int mem_libre(node* memory_root);
+int mem_pgrand_libre(node* memory_root);
+int mem_small_free(node* memory_root, int max_taille_petit);
+int mem_est_alloue(node* memory_root, int pOctet);
