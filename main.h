@@ -19,7 +19,7 @@ node *init_mem(int size_memory);
 
 node *allou_mem(int size_bloc, struct node *free_node);
 
-int libere_mem();
+node *libere_mem(node *node_to_liberate);
 
 int n_bloc_libres(node *memory_root);
 
@@ -33,9 +33,9 @@ int mem_small_free(node *memory_root, int max_taille_petit);
 
 int mem_est_alloue(node *memory_root, int pOctet);
 
-void affiche_etat_memoire();
+void affiche_etat_memoire(node *memory_root);
 
-void affiche_parametres_memoire();
+void affiche_parametres_memoire(node *root);
 
 int first_fit(node *memory_root, int size);
 

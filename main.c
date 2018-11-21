@@ -51,8 +51,30 @@ node *allou_mem(int new_block_size, node *free_node) {
     return pNode;
 }
 
-int libere_mem() {
-    return 0;
+node *libere_mem(node *lib_node) {
+    
+    lib_node->value->state = 0;
+
+    node *prev_node = lib_node->p_prev;
+    node *next_node = lib_node->p_next;
+
+    if(prev_node->value->state == 0){
+        lib_node->value->address = prev_node->value->address;
+        lib_node->value->size += prev_node->value->size;
+
+        lib_node->p_prev = prev_node->p_prev;
+        lib_node->p_prev->p_next = lib_node;
+        free(prev_node);
+    }
+    if(next_node->value->state == 0){
+        lib_node->value->size += next_node->value->size;
+
+        lib_node->p_next = next_node->p_next;
+        lib_node->p_next->p_prev = lib_node;
+        free(next_node);
+    }
+
+    return lib_node;
 }
 
 int n_bloc_libres(node *memory_root) {
@@ -174,11 +196,29 @@ int mem_est_alloue(node *memory_root, int pOctet) {
 }
 
 
-void affiche_etat_memoire(){
+void affiche_etat_memoire(node *memory_root){
+    node *p_mem = memory_root;
+
+    while (p_mem != NULL) {
+        printf("Adresse : %lu\n", p_mem->value->address);
+        printf("Etat : %u\n", p_mem->value->state);
+        printf("Taille : %u\n\n", p_mem->value->size);
+
+        p_mem = p_mem->p_next;
+
+    }
 
 }
 
-void affiche_parametres_memoire(){
+void affiche_parametres_memoire(node *root){
+
+    printf("Nombre de bloc(s) libre : %u\n", n_bloc_libres(root));
+    printf("Nombre de bloc(s) alloues : %u\n", n_bloc_alloues(root));
+    printf("Memoire libre : %u\n", mem_libre(root));
+    printf("Memoire plus grande libre: %u \n", mem_pgrand_libre(root)); 
+
+    int size_small = 10;
+    printf("Nombre de bloc libre plus petit que %u : %u \n", size_small, mem_small_free(root, size_small));
 
 }
 
@@ -265,15 +305,9 @@ int next_fit(node *memory_root, int size) {
 }
 
 int main() {
+
     printf("Initialisation de la mémoire :\n\n");
     node *root = init_mem(1000);
-
-    printf("Nombre de bloc(s) : %u\n", n_bloc_alloues(root) + n_bloc_libres(root));
-    printf("Memoire libre : %u\n", mem_libre(root));
-
-    printf("Adresse : %lu\n", root->value->address);
-    printf("Etat : %u\n", root->value->state);
-    printf("Taille : %u\n", root->value->size);
 
     printf("Octet %u alloué ? %u\n", 26, mem_est_alloue(root->p_prev, 26));
 
@@ -281,17 +315,7 @@ int main() {
     allou_mem(300, root);
     node *new_root = root->p_prev; // TODO : le gestionnaire devra memoriser/mettre a jour la racine a chaque ajout/liberation
 
-    printf("Nombre de bloc(s) : %u\n", n_bloc_alloues(new_root) + n_bloc_libres(new_root));
-    printf("Memoire libre : %u\n", mem_libre(new_root));
 
-    printf("Premier bloc :\n");
-    printf("Adresse : %lu\n", new_root->value->address);
-    printf("Etat : %u\n", new_root->value->state);
-    printf("Taille : %u\n", new_root->value->size);
-    printf("Seconds bloc :\n");
-    printf("Adresse : %lu\n", new_root->p_next->value->address);
-    printf("Etat : %u\n", new_root->p_next->value->state);
-    printf("Taille : %u\n", new_root->p_next->value->size);
 
     printf("Octet %u alloué ? %u\n", 26, mem_est_alloue(root->p_prev, 26));
 
