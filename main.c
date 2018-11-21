@@ -313,9 +313,7 @@ int main() {
 
     printf("\nAllocation d'un bloc mémoire :\n\n");
     allou_mem(300, root);
-    node *new_root = root->p_prev; // TODO : le gestionnaire devra memoriser/mettre a jour la racine a chaque ajout/liberation
-
-
+    node *new_root = root->p_prev;
 
     printf("Octet %u alloué ? %u\n", 26, mem_est_alloue(root->p_prev, 26));
 
