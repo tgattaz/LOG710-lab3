@@ -4,7 +4,7 @@
 
 typedef struct bloc {
     int size;
-    long address;
+    u_long address;
     int state;
 } bloc;
 
@@ -37,10 +37,10 @@ void affiche_etat_memoire();
 
 void affiche_parametres_memoire();
 
-void first_fit();
+int first_fit(node *memory_root, int size);
 
-void best_fit();
+int best_fit(node *memory_root, int size);
 
-void worst_fit();
+int worst_fit(node *memory_root, int size);
 
-void next_fit();
+int next_fit(node *memory_root, int size);

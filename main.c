@@ -4,7 +4,7 @@ node *init_mem(int size_memory) {
 
     bloc *bloc = malloc(sizeof(bloc));
     bloc->size = size_memory;
-    bloc->address = (long) malloc((size_t) size_memory);
+    bloc->address = (u_long) malloc((size_t) size_memory);
     bloc->state = 0;
 
     node *root = malloc(sizeof(node));
@@ -182,19 +182,85 @@ void affiche_parametres_memoire(){
 
 }
 
-void first_fit() {
+int first_fit(node *memory_root, int size) {
+    node *p_mem = memory_root;
+
+    while (p_mem != NULL) {
+
+        if (p_mem->value->state == 0 && p_mem->value->size == size) {
+            allou_mem(size, p_mem);
+            return 0;
+        }
+
+        p_mem = p_mem->p_next;
+    }
+
+    return -1;
+}
+
+int best_fit(node *memory_root, int size) {
+    node *p_mem = memory_root;
+    node *best_node = NULL;
+    int min_delta = 1000000000;
+    int delta;
+
+    while (p_mem != NULL) {
+
+        if (p_mem->value->state == 0) {
+
+            delta = abs(p_mem->value->size - size);
+
+            if (delta <= min_delta) {
+                min_delta = delta;
+                best_node = p_mem;
+            }
+
+        }
+
+        p_mem = p_mem->p_next;
+    }
+
+    if (best_node != NULL) {
+        allou_mem(size, memory_root);
+        return 0;
+    }
+
+    return -1;
+}
+
+int worst_fit(node *memory_root, int size) {
+
+    node *p_mem = memory_root;
+    node *best_node = NULL;
+    int max_delta = 0;
+    int delta;
+
+    while (p_mem != NULL) {
+
+        if (p_mem->value->state == 0) {
+
+            delta = abs(size - p_mem->value->size);
+
+            if (delta >= max_delta) {
+                max_delta = delta;
+                best_node = p_mem;
+            }
+
+        }
+
+        p_mem = p_mem->p_next;
+    }
+
+    if (best_node != NULL) {
+        allou_mem(size, memory_root);
+        return 0;
+    }
+
+    return -1;
 
 }
 
-void best_fit() {
-
-}
-
-void worst_fit() {
-
-}
-
-void next_fit() {
+int next_fit(node *memory_root, int size) {
 
 }
 
