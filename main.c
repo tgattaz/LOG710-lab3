@@ -212,13 +212,13 @@ void affiche_etat_memoire(node *memory_root){
 
 void affiche_parametres_memoire(node *root){
 
-    printf("Nombre de bloc(s) libre : %u\n", n_bloc_libres(root));
-    printf("Nombre de bloc(s) alloues : %u\n", n_bloc_alloues(root));
-    printf("Memoire libre : %u\n", mem_libre(root));
-    printf("Memoire plus grande libre: %u \n", mem_pgrand_libre(root)); 
+    printf("Nombre de blocs libres: %u\n", n_bloc_libres(root));
+    printf("Nombre de blocs alloués: %u\n", n_bloc_alloues(root));
+    printf("Mémoire libre: %u\n", mem_libre(root));
+    printf("Taille du plus grand bloc libre: %u \n", mem_pgrand_libre(root)); 
 
     int size_small = 10;
-    printf("Nombre de bloc libre plus petit que %u : %u \n", size_small, mem_small_free(root, size_small));
+    printf("Nombre de blocs libres de taille inférieur à %u: %u \n", size_small, mem_small_free(root, size_small));
 
 }
 
