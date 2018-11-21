@@ -19,6 +19,8 @@ node *init_mem(int size_memory);
 
 node *allou_mem(int size_bloc, struct node *free_node);
 
+int libere_mem();
+
 int n_bloc_libres(node *memory_root);
 
 int n_bloc_alloues(node *memory_root);

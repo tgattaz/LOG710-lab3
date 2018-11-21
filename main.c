@@ -2,9 +2,9 @@
 
 node *init_mem(int size_memory) {
 
-    struct bloc *bloc = malloc(sizeof(bloc));
+    bloc *bloc = malloc(sizeof(bloc));
     bloc->size = size_memory;
-    bloc->address = 0;
+    bloc->address = (int) malloc((size_t) size_memory);
     bloc->state = 0;
 
     node *root = malloc(sizeof(node));
@@ -21,10 +21,10 @@ node *init_mem(int size_memory) {
 // Either use malloc() to allocate the buffer, or change the function to accept a buffer and just fill it.
 node *allou_mem(int new_block_size, node *free_node) {
 
-    node *pBlock = NULL;
+    node *pNode = NULL;
 
     if (new_block_size == free_node->value->size) {
-        pBlock = free_node;
+        pNode = free_node;
         free_node->value->state = 1;
     } else {
         bloc *new_bloc = malloc(sizeof(bloc));
@@ -36,7 +36,7 @@ node *allou_mem(int new_block_size, node *free_node) {
         free_node->value->size -= new_block_size;
 
         node *new_node = malloc(sizeof(node));
-        pBlock = new_node;
+        pNode = new_node;
         new_node->value = new_bloc;
         new_node->p_prev = free_node->p_prev;
         new_node->p_next = free_node;
@@ -48,7 +48,11 @@ node *allou_mem(int new_block_size, node *free_node) {
         free_node->p_prev = new_node;
     }
 
-    return pBlock;
+    return pNode;
+}
+
+int libere_mem() {
+    return 0;
 }
 
 int n_bloc_libres(node *memory_root) {
@@ -170,7 +174,7 @@ int mem_est_alloue(node *memory_root, int pOctet) {
 }
 
 int main() {
-    printf("\nInitialisation de la mémoire :\n\n");
+    printf("Initialisation de la mémoire :\n\n");
     node *root = init_mem(1000);
 
     printf("Nombre de bloc(s) : %u\n", n_bloc_alloues(root) + n_bloc_libres(root));
