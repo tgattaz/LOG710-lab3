@@ -32,3 +32,7 @@ int mem_pgrand_libre(node *memory_root);
 int mem_small_free(node *memory_root, int max_taille_petit);
 
 int mem_est_alloue(node *memory_root, int pOctet);
+
+void affiche_etat_memoire();
+
+void affiche_parametres_memoire();

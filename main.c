@@ -173,6 +173,17 @@ int mem_est_alloue(node *memory_root, int pOctet) {
     return find;
 }
 
+
+void affiche_etat_memoire(){
+
+
+
+}
+
+void affiche_parametres_memoire(){
+
+
+}
 int main() {
     printf("Initialisation de la mémoire :\n\n");
     node *root = init_mem(1000);
