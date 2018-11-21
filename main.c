@@ -58,19 +58,21 @@ node *libere_mem(node *lib_node) {
     node *prev_node = lib_node->p_prev;
     node *next_node = lib_node->p_next;
 
-    if (prev_node->value->state == 0) {
+    if(prev_node != NULL && prev_node->value->state == 0){
         lib_node->value->address = prev_node->value->address;
         lib_node->value->size += prev_node->value->size;
 
         lib_node->p_prev = prev_node->p_prev;
         lib_node->p_prev->p_next = lib_node;
+        free(prev_node->value);
         free(prev_node);
     }
-    if (next_node->value->state == 0) {
+    if (next_node != NULL && next_node->value->state == 0) {
         lib_node->value->size += next_node->value->size;
 
         lib_node->p_next = next_node->p_next;
         lib_node->p_next->p_prev = lib_node;
+        free(next_node->value);
         free(next_node);
     }
 
@@ -327,21 +329,85 @@ int next_fit(node *memory_root, node *previous_starting_node, int size) {
 
 }
 
+
+void free_all(node *memory_root){
+
+    node *p_mem = memory_root;
+    node *next_node;
+
+    free((memory_root->value->address));
+    while(p_mem != NULL){
+        next_node = p_mem->p_next;
+
+        free(p_mem->value);
+        free(p_mem);
+
+        p_mem = next_node;
+    }
+}
+
+
 int main() {
 
-    printf("Initialisation de la mémoire :\n\n");
-    node *root = init_mem(1000);
-    affiche_etat_memoire(root);
+    int continuing = 1;
+    int strategie_choice;
+    int size_memory;
+    int return_val_strat =0;
 
-    printf("\nAllocation d'un bloc mémoire :\n\n");
-
-    if (next_fit(root, root, 300) == 0) {
-        affiche_etat_memoire(root->p_prev);
-    } else {
-        printf("No empty space");
+    printf("1. First-fit  2. Best-fit  3. Worst-fit  4. Next-fit \n");
+    printf("Enter the value of the strategie you want to use : ");
+    scanf("%d", &strategie_choice);
+    if((strategie_choice > 4) || (strategie_choice < 1)){
+        printf("please use a valid anwser \n");
+        return 0;
+    }
+    printf("\nEnter the total size memory you need : ");
+    scanf("%d", &size_memory);
+    if((size_memory > 100000) || (size_memory < 0)){
+        printf("please use a valid anwser \n");
+        return 0;
     }
 
-    printf("Octet %u alloué ? %u\n", 26, mem_est_alloue(root->p_prev, 26));
+    node *root = init_mem(size_memory);
 
+    printf("\n!!IF YOU WANT TO STOP USING THE PROGRAM ANSWER -1!!!\n");
+
+    while(continuing){
+
+        printf("Enter the new memorie size you want to use: ");
+        scanf("%d", &size_memory);
+        if(size_memory < 0){
+            continuing = 0;
+        }
+        else{
+        
+            if(strategie_choice == 1){
+                return_val_strat = first_fit(root, size_memory);
+                if(return_val_strat > 0){
+                    printf("There is not a place for the size you ask for");
+                }
+
+            }else if(strategie_choice == 2){
+                return_val_strat = best_fit(root, size_memory);
+                if(return_val_strat > 0){
+                    printf("There is not a place for the size you ask for");
+                }
+            }else if(strategie_choice == 3){
+                return_val_strat = worst_fit(root, size_memory);
+                if(return_val_strat > 0){
+                    printf("There is not a place for the size you ask for");
+                }
+            }else if(strategie_choice == 4){
+                //TODO need to handle the last used node
+                return_val_strat = next_fit(root, size_memory,root);
+                if(return_val_strat > 0){
+                    printf("There is not a place for the size you ask for");
+                }
+            
+            }
+        }
+    }
+
+    free_all(root);
     return 0;
 }
