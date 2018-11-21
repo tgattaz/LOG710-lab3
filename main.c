@@ -156,14 +156,14 @@ int mem_pgrand_libre(node *memory_root) {
 // A tester
 int mem_small_free(node *memory_root, int max_taille_petit) {
 
-    int n_free_blocks_under_size = 1000000; // Maybe change this to const, var or DEFINE
+    int n_free_blocks_under_size = 0;
     node *p_mem = memory_root;
 
     while (p_mem != NULL) {
 
         if (p_mem->value->state == 0) {
             if (p_mem->value->size < max_taille_petit) {
-                n_free_blocks_under_size = p_mem->value->size;
+                n_free_blocks_under_size += 1;
             }
         }
 
@@ -227,7 +227,7 @@ int first_fit(node *memory_root, int size) {
 
     while (p_mem != NULL) {
 
-        if (p_mem->value->state == 0 && p_mem->value->size == size) {
+        if (p_mem->value->state == 0 && p_mem->value->size >= size) {
             allou_mem(size, p_mem);
             return 0;
         }
@@ -308,12 +308,15 @@ int main() {
 
     printf("Initialisation de la mémoire :\n\n");
     node *root = init_mem(1000);
-
-    printf("Octet %u alloué ? %u\n", 26, mem_est_alloue(root->p_prev, 26));
+    affiche_etat_memoire(root);
 
     printf("\nAllocation d'un bloc mémoire :\n\n");
-    allou_mem(300, root);
-    node *new_root = root->p_prev;
+
+    if (worst_fit(root, 300) == 0) {
+        affiche_etat_memoire(root->p_prev);
+    } else {
+        printf("No empty space");
+    }
 
     printf("Octet %u alloué ? %u\n", 26, mem_est_alloue(root->p_prev, 26));
 
