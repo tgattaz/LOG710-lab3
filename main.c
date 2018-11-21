@@ -179,11 +179,12 @@ int mem_est_alloue(node *memory_root, int pOctet) {
 
     int find = 0;
     node *p_mem = memory_root;
+    long phys_addr = memory_root->value->address + pOctet;
 
-    while (p_mem != NULL && !find && p_mem->value->address <= pOctet) {
+    while (p_mem != NULL && !find && p_mem->value->address <= phys_addr) {
 
         if (p_mem->value->state == 1) {
-            if (pOctet >= p_mem->value->address && pOctet < (p_mem->value->address + p_mem->value->size)) {
+            if (phys_addr >= p_mem->value->address && phys_addr < (p_mem->value->address + p_mem->value->size)) {
                 find = 1;
             }
         }
@@ -198,8 +199,8 @@ int mem_est_alloue(node *memory_root, int pOctet) {
 
 void affiche_etat_memoire(node *memory_root){
     node *p_mem = memory_root;
-     int n_memory_blocks = 0;  
-     printf("Liste des blocs memoires : ");
+     int n_memory_blocks = 0;
+    printf("Liste des blocs memoires : \n");
 
     while (p_mem != NULL) {
         printf("-> Bloc memoire %d : \n", n_memory_blocks);
@@ -265,7 +266,7 @@ int best_fit(node *memory_root, int size) {
     }
 
     if (best_node != NULL) {
-        allou_mem(size, memory_root);
+        allou_mem(size, best_node);
         return 0;
     }
 
@@ -296,7 +297,7 @@ int worst_fit(node *memory_root, int size) {
     }
 
     if (best_node != NULL) {
-        allou_mem(size, memory_root);
+        allou_mem(size, best_node);
         return 0;
     }
 
