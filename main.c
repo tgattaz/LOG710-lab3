@@ -198,11 +198,15 @@ int mem_est_alloue(node *memory_root, int pOctet) {
 
 void affiche_etat_memoire(node *memory_root){
     node *p_mem = memory_root;
+     int n_memory_blocks = 0;  
+     printf("Liste des blocs memoires : ");
 
     while (p_mem != NULL) {
-        printf("Adresse : %lu\n", p_mem->value->address);
-        printf("Etat : %u\n", p_mem->value->state);
-        printf("Taille : %u\n\n", p_mem->value->size);
+        printf("-> Bloc memoire %d : \n", n_memory_blocks);
+        printf("Adresse : %lu | ", p_mem->value->address);
+        printf(" Etat : %u | ", p_mem->value->state);
+        printf(" Taille : %u\n\n", p_mem->value->size);
+        n_memory_blocks += 1;
 
         p_mem = p_mem->p_next;
 
