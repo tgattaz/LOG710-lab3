@@ -300,7 +300,25 @@ int worst_fit(node *memory_root, int size) {
 
 }
 
-int next_fit(node *memory_root, int size) {
+int next_fit(node *memory_root, node *previous_starting_node, int size) {
+
+    node *p_mem = previous_starting_node;
+
+    while (p_mem->p_next != previous_starting_node) {
+
+        if (p_mem->value->state == 0 && p_mem->value->size >= size) {
+            allou_mem(size, p_mem);
+            return 0;
+        }
+
+        if (p_mem->p_next == NULL) {
+            p_mem = memory_root;
+        } else {
+            p_mem = p_mem->p_next;
+        }
+    }
+
+    return -1;
 
 }
 
@@ -312,7 +330,7 @@ int main() {
 
     printf("\nAllocation d'un bloc mémoire :\n\n");
 
-    if (worst_fit(root, 300) == 0) {
+    if (next_fit(root, root, 300) == 0) {
         affiche_etat_memoire(root->p_prev);
     } else {
         printf("No empty space");
