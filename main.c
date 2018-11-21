@@ -4,7 +4,7 @@ node *init_mem(int size_memory) {
 
     bloc *bloc = malloc(sizeof(bloc));
     bloc->size = size_memory;
-    bloc->address = (int) malloc((size_t) size_memory);
+    bloc->address = (long) malloc((size_t) size_memory);
     bloc->state = 0;
 
     node *root = malloc(sizeof(node));
@@ -205,7 +205,7 @@ int main() {
     printf("Nombre de bloc(s) : %u\n", n_bloc_alloues(root) + n_bloc_libres(root));
     printf("Memoire libre : %u\n", mem_libre(root));
 
-    printf("Adresse : %u\n", root->value->address);
+    printf("Adresse : %lu\n", root->value->address);
     printf("Etat : %u\n", root->value->state);
     printf("Taille : %u\n", root->value->size);
 
@@ -219,11 +219,11 @@ int main() {
     printf("Memoire libre : %u\n", mem_libre(new_root));
 
     printf("Premier bloc :\n");
-    printf("Adresse : %u\n", new_root->value->address);
+    printf("Adresse : %lu\n", new_root->value->address);
     printf("Etat : %u\n", new_root->value->state);
     printf("Taille : %u\n", new_root->value->size);
     printf("Seconds bloc :\n");
-    printf("Adresse : %u\n", new_root->p_next->value->address);
+    printf("Adresse : %lu\n", new_root->p_next->value->address);
     printf("Etat : %u\n", new_root->p_next->value->state);
     printf("Taille : %u\n", new_root->p_next->value->size);
 

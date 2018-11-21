@@ -4,7 +4,7 @@
 
 typedef struct bloc {
     int size;
-    int address;
+    long address;
     int state;
 } bloc;
 
