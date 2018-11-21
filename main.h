@@ -36,3 +36,11 @@ int mem_est_alloue(node *memory_root, int pOctet);
 void affiche_etat_memoire();
 
 void affiche_parametres_memoire();
+
+void first_fit();
+
+void best_fit();
+
+void worst_fit();
+
+void next_fit();
