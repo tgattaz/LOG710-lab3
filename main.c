@@ -326,28 +326,6 @@ node *worst_fit(node *memory_root, int size) {
 }
 
 int next_fit(node **memory_root, node **previous_starting_node, int size) {
-    /*
-    node *p_mem = *memory_root;
-
-    while (p_mem != NULL) {
-
-        if (p_mem->value->state == 0 && p_mem->value->size >= size) {
-            if (p_mem->value->address == (*memory_root)->value->address) {
-                *memory_root = allou_mem(size, p_mem);
-            } else {
-                allou_mem(size, p_mem);
-            }
-
-            return 1;
-
-        }
-
-        p_mem = p_mem->p_next;
-    }
-
-    return 0;
-    */
-
     node *p_mem = *previous_starting_node;
 
     while (p_mem->p_next != *previous_starting_node) {
