@@ -58,7 +58,6 @@ node *libere_mem(node *lib_node) {
     node *prev_node = lib_node->p_prev;
     node *next_node = lib_node->p_next;
 
-    
     if(prev_node != NULL && prev_node->value->state == 0){
         lib_node->value->address = prev_node->value->address;
         lib_node->value->size += prev_node->value->size;
@@ -235,25 +234,27 @@ void affiche_parametres_memoire(node *root) {
 
 }
 
-node *first_fit(node *memory_root, int size) {
-    node *p_mem = memory_root;
+int first_fit(node **memory_root, int size) {
+    node *p_mem = *memory_root;
 
     while (p_mem != NULL) {
 
         if (p_mem->value->state == 0 && p_mem->value->size >= size) {
-            if (p_mem->value->address == memory_root->value->address) {
-                memory_root = allou_mem(size, p_mem);
+            if (p_mem->value->address == (*memory_root)->value->address) {
+                *memory_root = allou_mem(size, p_mem);
             } else {
                 allou_mem(size, p_mem);
             }
-            return memory_root;
+
+            return 1;
 
         }
 
         p_mem = p_mem->p_next;
     }
 
-    return memory_root;
+    return 0;
+
 }
 
 node *best_fit(node *memory_root, int size) {
@@ -354,12 +355,12 @@ node *next_fit(node *memory_root, node *previous_starting_node, int size) {
 }
 
 
-void free_all(node *memory_root){
+void free_all(node *memory_root) {
 
     node *p_mem = memory_root;
     node *next_node;
 
-    while(p_mem != NULL){
+    while (p_mem != NULL) {
         next_node = p_mem->p_next;
 
         free(p_mem->value);
@@ -390,7 +391,7 @@ int main() {
     int pos_remove_list =0;
 
     strategie_choice=choix_strategie();
-    
+
     printf("\nEnter the total size memory you need : ");
     scanf("%d", &size_memory);
     if((size_memory > 100000) || (size_memory < 0)){
@@ -400,51 +401,47 @@ int main() {
 
     node *root = init_mem(size_memory);
 
-    while(continuing){
+    while (continuing) {
 
         printf("1. Add  2. Remove  -1. Stop \n");
         printf("Enter the value of the choice  you want to use : ");
         scanf("%d", &return_remove_add_choice);
 
         //STOP
-        if(return_remove_add_choice == -1){
+        if (return_remove_add_choice == -1) {
             continuing = 0;
         }
         //REMOVE
         else if(return_remove_add_choice == 2){
             printf("Enter the position in the list that you want to remove: ");
             scanf("%d", &pos_remove_list);
-            
+
             node *p_mem = root;
             for(int i = 0; i< pos_remove_list;i++){
                 p_mem = p_mem->p_next;
             }
             libere_mem(p_mem);
         }
-        //ADD
-        else if(return_remove_add_choice == 1){
+            //ADD
+        else if (return_remove_add_choice == 1) {
 
             printf("Enter the new memorie size you want to use: ");
             scanf("%d", &size_memory);
 
-            if(mem_pgrand_libre(root) < size_memory){
-                printf("There is not a place for the size you ask for %d\n", size_memory);
-            }
-            else{
 
-        
-                if(strategie_choice == 1){
-                    root = first_fit(root, size_memory);
-
-                }else if(strategie_choice == 2){
-                    root = best_fit(root, size_memory);
-                }else if(strategie_choice == 3){
-                    root = worst_fit(root, size_memory);
-                }else if(strategie_choice == 4){
-                    //TODO need to handle the last used node
-                    root = next_fit(root, size_memory, root);
-                
+            if (strategie_choice == 1) {
+                if (first_fit(&root, size_memory) == 0) {
+                    printf("There is not a place for the size you ask for %d\n", size_memory);
                 }
+
+            } else if (strategie_choice == 2) {
+                root = best_fit(root, size_memory);
+            } else if (strategie_choice == 3) {
+                root = worst_fit(root, size_memory);
+            } else if (strategie_choice == 4) {
+                //TODO need to handle the last used node
+                root = next_fit(root, size_memory, root);
+
             }
         }
         affiche_parametres_memoire(root);
