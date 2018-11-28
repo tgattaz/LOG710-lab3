@@ -381,6 +381,7 @@ int main() {
     int strategie_choice;
     int size_memory;
     int return_remove_add_choice=0;
+    int pos_remove_list =0;
 
     strategie_choice=choix_strategie();
     
@@ -405,8 +406,14 @@ int main() {
         }
         //REMOVE
         else if(return_remove_add_choice == 2){
-            printf("Enter the address you want to remove: ");
-            //libere_mem(node *lib_node);
+            printf("Enter the position in the list that you want to remove: ");
+            scanf("%d", &pos_remove_list);
+            
+            node *p_mem = root;
+            for(int i = 0; i< pos_remove_list;i++){
+                p_mem = p_mem->p_next;
+            }
+            libere_mem(p_mem);
         }
         //ADD
         else if(return_remove_add_choice == 1){
