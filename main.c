@@ -372,6 +372,17 @@ int choix_strategie(){
     return strategie_choice;
 }
 
+int choix_taille_mem(){
+    int size_memory;
+    printf("\nEnter the total size memory you need : ");
+    scanf("%d", &size_memory);
+    if((size_memory > 100000) || (size_memory < 0)){
+        printf("please use a valid anwser \n");
+        return 0;
+    }
+    return size_memory;
+}
+
 int main() {
 
     int continuing = 1;
@@ -381,14 +392,7 @@ int main() {
     int return_remove_add_choice=0;
 
     strategie_choice=choix_strategie();
-    
-    printf("\nEnter the total size memory you need : ");
-    scanf("%d", &size_memory);
-    if((size_memory > 100000) || (size_memory < 0)){
-        printf("please use a valid anwser \n");
-        return 0;
-    }
-
+    size_memory=choix_taille_mem();
     node *root = init_mem(size_memory);
 
     while(continuing){
