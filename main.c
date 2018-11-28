@@ -374,10 +374,20 @@ int main() {
 
     node *root = init_mem(size_memory);
 
-    printf("\n!!IF YOU WANT TO STOP USING THE PROGRAM ANSWER -1!!!\n");
+    printf("\n!!IF YOU WANT TO STOP USING THE PROGRAM ANSWER -1!!!\n\n");
 
     while(continuing){
 
+        affiche_parametres_memoire(root);
+
+        printf("\n 1. First-fit  2. Best-fit  3. Worst-fit  4. Next-fit \n");
+        printf("Enter the value of the strategie you want to use : ");
+        scanf("%d", &strategie_choice);
+        if((strategie_choice > 4) || (strategie_choice < 1)){
+            printf("please use a valid anwser \n");
+            return 0;
+        }
+        
         printf("Enter the new memorie size you want to use: ");
         scanf("%d", &size_memory);
         if(size_memory < 0){
