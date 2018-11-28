@@ -58,20 +58,26 @@ node *libere_mem(node *lib_node) {
     node *prev_node = lib_node->p_prev;
     node *next_node = lib_node->p_next;
 
+    
     if(prev_node != NULL && prev_node->value->state == 0){
         lib_node->value->address = prev_node->value->address;
         lib_node->value->size += prev_node->value->size;
 
         lib_node->p_prev = prev_node->p_prev;
-        lib_node->p_prev->p_next = lib_node;
+        if(lib_node->p_prev != NULL){
+            lib_node->p_prev->p_next = lib_node;
+        }
         free(prev_node->value);
         free(prev_node);
     }
+
     if (next_node != NULL && next_node->value->state == 0) {
         lib_node->value->size += next_node->value->size;
 
         lib_node->p_next = next_node->p_next;
-        lib_node->p_next->p_prev = lib_node;
+        if(lib_node->p_next != NULL){
+            lib_node->p_next->p_prev = lib_node;
+        }
         free(next_node->value);
         free(next_node);
     }
