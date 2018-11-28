@@ -219,7 +219,7 @@ void affiche_etat_memoire(node *memory_root) {
 
 void affiche_parametres_memoire(node *root) {
 
-    printf("Nombre de blocs libres: %u\n", n_bloc_libres(root));
+    printf("\nNombre de blocs libres: %u\n", n_bloc_libres(root));
     printf("Nombre de blocs alloués: %u\n", n_bloc_alloues(root));
     printf("Mémoire libre: %u\n", mem_libre(root));
     printf("Taille du plus grand bloc libre: %u \n", mem_pgrand_libre(root));
@@ -383,35 +383,44 @@ int choix_taille_mem(){
     return size_memory;
 }
 
+int choix_action(){
+    int action;
+
+    printf("1. Add  2. Remove  -1. Stop \n");
+    printf("Enter the value of the choice  you want to use : ");
+    scanf("%d", &action);
+
+    return action;
+}
+
 int main() {
 
     int continuing = 1;
     int strategie_choice;
     int size_memory;
     int return_val_strat =0;
-    int return_remove_add_choice=0;
+    int action;
 
     strategie_choice=choix_strategie();
     size_memory=choix_taille_mem();
     node *root = init_mem(size_memory);
 
     while(continuing){
-
-        printf("1. Add  2. Remove  -1. Stop \n");
-        printf("Enter the value of the choice  you want to use : ");
-        scanf("%d", &return_remove_add_choice);
+        
+        affiche_parametres_memoire(root);
+        action = choix_action();
 
         //STOP
-        if(return_remove_add_choice == -1){
+        if(action == -1){
             continuing = 0;
         }
         //REMOVE
-        else if(return_remove_add_choice == 2){
+        else if(action == 2){
             printf("Enter the address you want to remove: ");
             //libere_mem(node *lib_node);
         }
         //ADD
-        else if(return_remove_add_choice == 1){
+        else if(action == 1){
 
             printf("Enter the new memorie size you want to use: ");
             scanf("%d", &size_memory);
@@ -436,7 +445,6 @@ int main() {
                 }
             }
         }
-        affiche_parametres_memoire(root);
         affiche_etat_memoire(root);
 
     }
