@@ -363,6 +363,17 @@ void free_all(node *memory_root){
     }
 }
 
+int choix_strategie(){
+    int strategie_choice;
+    printf("1. First-fit  2. Best-fit  3. Worst-fit  4. Next-fit \n");
+    printf("Enter the value of the strategie you want to use : ");
+    scanf("%d", &strategie_choice);
+    if((strategie_choice > 4) || (strategie_choice < 1)){
+        printf("please use a valid anwser \n");
+        return 0;
+    }
+    return strategie_choice;
+}
 
 int main() {
 
@@ -371,13 +382,8 @@ int main() {
     int size_memory;
     int return_remove_add_choice=0;
 
-    printf("1. First-fit  2. Best-fit  3. Worst-fit  4. Next-fit \n");
-    printf("Enter the value of the strategie you want to use : ");
-    scanf("%d", &strategie_choice);
-    if((strategie_choice > 4) || (strategie_choice < 1)){
-        printf("please use a valid anwser \n");
-        return 0;
-    }
+    strategie_choice=choix_strategie();
+    
     printf("\nEnter the total size memory you need : ");
     scanf("%d", &size_memory);
     if((size_memory > 100000) || (size_memory < 0)){
