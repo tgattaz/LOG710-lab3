@@ -225,7 +225,7 @@ void affiche_parametres_memoire(node *root) {
     printf("Taille du plus grand bloc libre: %u \n", mem_pgrand_libre(root));
 
     int size_small = 10;
-    printf("Nombre de blocs libres de taille inférieur à %u: %u \n", size_small, mem_small_free(root, size_small));
+    printf("Nombre de blocs libres de taille inférieur à %u: %u \n\n", size_small, mem_small_free(root, size_small));
 
 }
 
