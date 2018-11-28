@@ -257,15 +257,16 @@ int first_fit(node **memory_root, int size) {
 
 }
 
-node *best_fit(node *memory_root, int size) {
-    node *p_mem = memory_root;
+int best_fit(node **memory_root, int size) {
+
+    node *p_mem = *memory_root;
     node *best_node = NULL;
     int min_delta = 1000000000;
     int delta;
 
     while (p_mem != NULL) {
 
-        if (p_mem->value->state == 0) {
+        if (p_mem->value->state == 0 && p_mem->value->size >= size) {
 
             delta = abs(p_mem->value->size - size);
 
@@ -280,26 +281,27 @@ node *best_fit(node *memory_root, int size) {
     }
 
     if (best_node != NULL) {
-        if (best_node->value->address == memory_root->value->address) {
-            memory_root = allou_mem(size, best_node);
+        if (best_node->value->address == (*memory_root)->value->address) {
+            *memory_root = allou_mem(size, best_node);
         } else {
             allou_mem(size, best_node);
         }
+        return 1;
     }
 
-    return memory_root;
+    return 0;
 }
 
-node *worst_fit(node *memory_root, int size) {
+int worst_fit(node **memory_root, int size) {
 
-    node *p_mem = memory_root;
+    node *p_mem = *memory_root;
     node *worst_node = NULL;
     int max_delta = 0;
     int delta;
 
     while (p_mem != NULL) {
 
-        if (p_mem->value->state == 0) {
+        if (p_mem->value->state == 0 && p_mem->value->size >= size) {
 
             delta = abs(size - p_mem->value->size);
 
@@ -314,18 +316,20 @@ node *worst_fit(node *memory_root, int size) {
     }
 
     if (worst_node != NULL) {
-        if (worst_node->value->address == memory_root->value->address) {
-            memory_root = allou_mem(size, worst_node);
+        if (worst_node->value->address == (*memory_root)->value->address) {
+            *memory_root = allou_mem(size, worst_node);
         } else {
             allou_mem(size, worst_node);
         }
+        return 1;
     }
 
-    return memory_root;
+    return 0;
 
 }
 
 int next_fit(node **memory_root, node **previous_starting_node, int size) {
+
     node *p_mem = *previous_starting_node;
 
     while (p_mem->p_next != *previous_starting_node) {
@@ -376,12 +380,11 @@ int choix_strategie(){
     printf("Enter the value of the strategie you want to use : ");
     scanf("%d", &strategie_choice);
     if((strategie_choice > 4) || (strategie_choice < 1)){
-        printf("please use a valid anwser \n");
+        printf("please use a valid answer \n");
         return 0;
     }
     return strategie_choice;
 }
-
 int main() {
 
     int continuing = 1;
@@ -435,12 +438,16 @@ int main() {
                     printf("There is not a place for the size you ask for %d\n", size_memory);
                 }
             } else if (strategie_choice == 2) {
-                root = best_fit(root, size_memory);
+                if (best_fit(&root, size_memory) == 0) {
+                    printf("There is not a place for the size you ask for %d\n", size_memory);
+                }
             } else if (strategie_choice == 3) {
-                root = worst_fit(root, size_memory);
+                if (worst_fit(&root, size_memory) == 0) {
+                    printf("There is not a place for the size you ask for %d\n", size_memory);
+                }
             } else if (strategie_choice == 4) {
                 if (next_fit(&root, &last_node_placed, size_memory) == 0) {
-                    printf("There is not a place for the size you ask for %d\n", size_memory);
+                    printf("There is not a place for th3e size you ask for %d\n", size_memory);
                 }
 
             }
