@@ -43,6 +43,6 @@ node *best_fit(node *memory_root, int size);
 
 node *worst_fit(node *memory_root, int size);
 
-node *next_fit(node *memory_root, node *start_node, int size);
+int next_fit(node **memory_root, node **start_node, int size);
 
 void free_all(node *memory_root);

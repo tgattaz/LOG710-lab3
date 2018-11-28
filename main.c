@@ -325,32 +325,54 @@ node *worst_fit(node *memory_root, int size) {
 
 }
 
-node *next_fit(node *memory_root, node *previous_starting_node, int size) {
+int next_fit(node **memory_root, node **previous_starting_node, int size) {
+    /*
+    node *p_mem = *memory_root;
 
-    node *p_mem = previous_starting_node;
-
-    while (p_mem->p_next != previous_starting_node) {
+    while (p_mem != NULL) {
 
         if (p_mem->value->state == 0 && p_mem->value->size >= size) {
-
-            if (p_mem->value->address == memory_root->value->address) {
-                memory_root = allou_mem(size, p_mem);
+            if (p_mem->value->address == (*memory_root)->value->address) {
+                *memory_root = allou_mem(size, p_mem);
             } else {
                 allou_mem(size, p_mem);
             }
 
-            return memory_root;
+            return 1;
+
+        }
+
+        p_mem = p_mem->p_next;
+    }
+
+    return 0;
+    */
+
+    node *p_mem = *previous_starting_node;
+
+    while (p_mem->p_next != *previous_starting_node) {
+
+        if (p_mem->value->state == 0 && p_mem->value->size >= size) {
+
+            if (p_mem->value->address == (*memory_root)->value->address) {
+                *memory_root = allou_mem(size, p_mem);
+            } else {
+                allou_mem(size, p_mem);
+            }
+            *previous_starting_node = p_mem;
+
+            return 1;
 
         }
 
         if (p_mem->p_next == NULL) {
-            p_mem = memory_root;
+            p_mem = *memory_root;
         } else {
             p_mem = p_mem->p_next;
         }
     }
 
-    return memory_root;
+    return 0;
 
 }
 
@@ -400,6 +422,7 @@ int main() {
     }
 
     node *root = init_mem(size_memory);
+    node *last_node_placed = root;
 
     while (continuing) {
 
@@ -433,14 +456,14 @@ int main() {
                 if (first_fit(&root, size_memory) == 0) {
                     printf("There is not a place for the size you ask for %d\n", size_memory);
                 }
-
             } else if (strategie_choice == 2) {
                 root = best_fit(root, size_memory);
             } else if (strategie_choice == 3) {
                 root = worst_fit(root, size_memory);
             } else if (strategie_choice == 4) {
-                //TODO need to handle the last used node
-                root = next_fit(root, size_memory, root);
+                if (next_fit(&root, &last_node_placed, size_memory) == 0) {
+                    printf("There is not a place for the size you ask for %d\n", size_memory);
+                }
 
             }
         }
