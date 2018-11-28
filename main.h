@@ -37,12 +37,12 @@ void affiche_etat_memoire(node *memory_root);
 
 void affiche_parametres_memoire(node *root);
 
-int first_fit(node *memory_root, int size);
+node *first_fit(node *memory_root, int size);
 
-int best_fit(node *memory_root, int size);
+node *best_fit(node *memory_root, int size);
 
-int worst_fit(node *memory_root, int size);
+node *worst_fit(node *memory_root, int size);
 
-int next_fit(node *memory_root, node *start_node, int size);
+node *next_fit(node *memory_root, node *start_node, int size);
 
 void free_all(node *memory_root);

@@ -229,25 +229,27 @@ void affiche_parametres_memoire(node *root) {
 
 }
 
-int first_fit(node *memory_root, int size) {
+node *first_fit(node *memory_root, int size) {
     node *p_mem = memory_root;
+    node *new_root = NULL;
 
     while (p_mem != NULL) {
 
         if (p_mem->value->state == 0 && p_mem->value->size >= size) {
-            allou_mem(size, p_mem);
-            return 0;
+            new_root = allou_mem(size, p_mem);
+            return new_root;
         }
 
         p_mem = p_mem->p_next;
     }
 
-    return -1;
+    return new_root;
 }
 
-int best_fit(node *memory_root, int size) {
+node *best_fit(node *memory_root, int size) {
     node *p_mem = memory_root;
     node *best_node = NULL;
+    node *new_root = NULL;
     int min_delta = 1000000000;
     int delta;
 
@@ -268,17 +270,18 @@ int best_fit(node *memory_root, int size) {
     }
 
     if (best_node != NULL) {
-        allou_mem(size, best_node);
-        return 0;
+        new_root = allou_mem(size, best_node);
+        return new_root;
     }
 
-    return -1;
+    return new_root;
 }
 
-int worst_fit(node *memory_root, int size) {
+node *worst_fit(node *memory_root, int size) {
 
     node *p_mem = memory_root;
     node *best_node = NULL;
+    node *new_root = NULL;
     int max_delta = 0;
     int delta;
 
@@ -299,23 +302,24 @@ int worst_fit(node *memory_root, int size) {
     }
 
     if (best_node != NULL) {
-        allou_mem(size, best_node);
-        return 0;
+        new_root = allou_mem(size, best_node);
+        return new_root;
     }
 
-    return -1;
+    return new_root;
 
 }
 
-int next_fit(node *memory_root, node *previous_starting_node, int size) {
+node *next_fit(node *memory_root, node *previous_starting_node, int size) {
 
     node *p_mem = previous_starting_node;
+    node *new_root = NULL;
 
     while (p_mem->p_next != previous_starting_node) {
 
         if (p_mem->value->state == 0 && p_mem->value->size >= size) {
-            allou_mem(size, p_mem);
-            return 0;
+            new_root = allou_mem(size, p_mem);
+            return new_root;
         }
 
         if (p_mem->p_next == NULL) {
@@ -325,7 +329,7 @@ int next_fit(node *memory_root, node *previous_starting_node, int size) {
         }
     }
 
-    return -1;
+    return new_root;
 
 }
 
