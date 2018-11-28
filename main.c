@@ -274,14 +274,13 @@ node *best_fit(node *memory_root, int size) {
 
     if (best_node != NULL) {
         if (best_node->value->address == memory_root->value->address) {
-            allou_mem(size, best_node);
-            return memory_root;
+            memory_root = allou_mem(size, best_node);
         } else {
-            return allou_mem(size, best_node);
+            allou_mem(size, best_node);
         }
     }
 
-    return NULL;
+    return memory_root;
 }
 
 node *worst_fit(node *memory_root, int size) {
@@ -309,28 +308,32 @@ node *worst_fit(node *memory_root, int size) {
 
     if (worst_node != NULL) {
         if (worst_node->value->address == memory_root->value->address) {
-            allou_mem(size, worst_node);
-            return memory_root;
+            memory_root = allou_mem(size, worst_node);
         } else {
-            return allou_mem(size, worst_node);
+            allou_mem(size, worst_node);
         }
     }
 
-    return NULL;
+    return memory_root;
 
 }
 
 node *next_fit(node *memory_root, node *previous_starting_node, int size) {
 
     node *p_mem = previous_starting_node;
-    node *new_root = NULL;
 
     while (p_mem->p_next != previous_starting_node) {
 
         if (p_mem->value->state == 0 && p_mem->value->size >= size) {
 
-            new_root = allou_mem(size, p_mem);
-            return new_root;
+            if (p_mem->value->address == memory_root->value->address) {
+                memory_root = allou_mem(size, p_mem);
+            } else {
+                allou_mem(size, p_mem);
+            }
+
+            return memory_root;
+
         }
 
         if (p_mem->p_next == NULL) {
@@ -340,7 +343,7 @@ node *next_fit(node *memory_root, node *previous_starting_node, int size) {
         }
     }
 
-    return new_root;
+    return memory_root;
 
 }
 
@@ -366,7 +369,6 @@ int main() {
     int continuing = 1;
     int strategie_choice;
     int size_memory;
-    int return_val_strat =0;
     int return_remove_add_choice=0;
 
     printf("1. First-fit  2. Best-fit  3. Worst-fit  4. Next-fit \n");
@@ -416,12 +418,12 @@ int main() {
                     root = first_fit(root, size_memory);
 
                 }else if(strategie_choice == 2){
-                    return_val_strat = best_fit(root, size_memory);
+                    root = best_fit(root, size_memory);
                 }else if(strategie_choice == 3){
-                    return_val_strat = worst_fit(root, size_memory);
+                    root = worst_fit(root, size_memory);
                 }else if(strategie_choice == 4){
                     //TODO need to handle the last used node
-                    return_val_strat = next_fit(root, size_memory,root);
+                    root = next_fit(root, size_memory, root);
                 
                 }
             }
