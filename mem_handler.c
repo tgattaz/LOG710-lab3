@@ -257,15 +257,16 @@ int first_fit(node **memory_root, int size) {
 
 }
 
-node *best_fit(node *memory_root, int size) {
-    node *p_mem = memory_root;
+int best_fit(node **memory_root, int size) {
+
+    node *p_mem = *memory_root;
     node *best_node = NULL;
     int min_delta = 1000000000;
     int delta;
 
     while (p_mem != NULL) {
 
-        if (p_mem->value->state == 0) {
+        if (p_mem->value->state == 0 && p_mem->value->size >= size) {
 
             delta = abs(p_mem->value->size - size);
 
@@ -280,26 +281,27 @@ node *best_fit(node *memory_root, int size) {
     }
 
     if (best_node != NULL) {
-        if (best_node->value->address == memory_root->value->address) {
-            memory_root = allou_mem(size, best_node);
+        if (best_node->value->address == (*memory_root)->value->address) {
+            *memory_root = allou_mem(size, best_node);
         } else {
             allou_mem(size, best_node);
         }
+        return 1;
     }
 
-    return memory_root;
+    return 0;
 }
 
-node *worst_fit(node *memory_root, int size) {
+int worst_fit(node **memory_root, int size) {
 
-    node *p_mem = memory_root;
+    node *p_mem = *memory_root;
     node *worst_node = NULL;
     int max_delta = 0;
     int delta;
 
     while (p_mem != NULL) {
 
-        if (p_mem->value->state == 0) {
+        if (p_mem->value->state == 0 && p_mem->value->size >= size) {
 
             delta = abs(size - p_mem->value->size);
 
@@ -314,33 +316,19 @@ node *worst_fit(node *memory_root, int size) {
     }
 
     if (worst_node != NULL) {
-        if (worst_node->value->address == memory_root->value->address) {
-            memory_root = allou_mem(size, worst_node);
+        if (worst_node->value->address == (*memory_root)->value->address) {
+            *memory_root = allou_mem(size, worst_node);
         } else {
             allou_mem(size, worst_node);
         }
+        return 1;
     }
 
-    return memory_root;
+    return 0;
 
 }
 
 int next_fit(node **memory_root, node **previous_starting_node, int size) {
-    /*
-    node *p_mem = *memory_root;
-    while (p_mem != NULL) {
-        if (p_mem->value->state == 0 && p_mem->value->size >= size) {
-            if (p_mem->value->address == (*memory_root)->value->address) {
-                *memory_root = allou_mem(size, p_mem);
-            } else {
-                allou_mem(size, p_mem);
-            }
-            return 1;
-        }
-        p_mem = p_mem->p_next;
-    }
-    return 0;
-    */
 
     node *p_mem = *previous_starting_node;
 
@@ -385,4 +373,5 @@ void free_all(node *memory_root) {
         p_mem = next_node;
     }
 }
+
 
