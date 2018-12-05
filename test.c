@@ -157,6 +157,9 @@ int main() {
 
             while (continuing) {
 
+                affiche_etat_memoire(root);
+                affiche_parametres_memoire(root);
+
                 action = choix_action(root);
                 if (action == 1) {
                     allocation_mem(&root, &last_node_placed, strategie_choice, 0);
@@ -164,11 +167,8 @@ int main() {
                     liberation_mem(&root, 0);
                 } else if (action == -1) {
                     continuing = 0;
-                    free_all(root);
+                    //free_all(root);
                 }
-
-                affiche_etat_memoire(root);
-                affiche_parametres_memoire(root);
 
             }
             break;
