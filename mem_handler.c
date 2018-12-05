@@ -15,10 +15,6 @@ node *init_mem(int size_memory) {
     return root;
 }
 
-// WHY I USED MALLOC :
-// You are returning a (pointer to a ) local variable. That can cause (and probably will cause) undefined behaviour,
-// because the value will be "gone" once the function ends.
-// Either use malloc() to allocate the buffer, or change the function to accept a buffer and just fill it.
 node *allou_mem(int new_block_size, node *free_node) {
 
     node *pNode = NULL;
@@ -58,12 +54,12 @@ node *libere_mem(node *lib_node) {
     node *prev_node = lib_node->p_prev;
     node *next_node = lib_node->p_next;
 
-    if(prev_node != NULL && prev_node->value->state == 0){
+    if (prev_node != NULL && prev_node->value->state == 0) {
         lib_node->value->address = prev_node->value->address;
         lib_node->value->size += prev_node->value->size;
 
         lib_node->p_prev = prev_node->p_prev;
-        if(lib_node->p_prev != NULL){
+        if (lib_node->p_prev != NULL) {
             lib_node->p_prev->p_next = lib_node;
         }
         free(prev_node->value);
@@ -74,7 +70,7 @@ node *libere_mem(node *lib_node) {
         lib_node->value->size += next_node->value->size;
 
         lib_node->p_next = next_node->p_next;
-        if(lib_node->p_next != NULL){
+        if (lib_node->p_next != NULL) {
             lib_node->p_next->p_prev = lib_node;
         }
         free(next_node->value);
@@ -181,7 +177,6 @@ int mem_small_free(node *memory_root, int max_taille_petit) {
     return n_free_blocks_under_size;
 }
 
-// Works but is it pretty enough ?
 int mem_est_alloue(node *memory_root, int pOctet) {
 
     int find = 0;
@@ -359,9 +354,9 @@ int next_fit(node **memory_root, node **previous_starting_node, int size) {
 }
 
 
-void free_all(node *memory_root) {
+void free_all(node **memory_root) {
 
-    node *p_mem = memory_root;
+    node *p_mem = *memory_root;
     node *next_node;
 
     while (p_mem != NULL) {
@@ -373,79 +368,3 @@ void free_all(node *memory_root) {
         p_mem = next_node;
     }
 }
-
-//int main() {
-//
-//    int continuing = 1;
-//    int strategie_choice;
-//    int size_memory;
-//    int return_remove_add_choice=0;
-//    int pos_remove_list =0;
-//
-//    strategie_choice=choix_strategie();
-//
-//    printf("\nEnter the total size memory you need : ");
-//    scanf("%d", &size_memory);
-//    if((size_memory > 100000) || (size_memory < 0)){
-//        printf("please use a valid anwser \n");
-//        return 0;
-//    }
-//
-//    node *root = init_mem(size_memory);
-//    node *last_node_placed = root;
-//
-//    while (continuing) {
-//
-//        printf("1. Add  2. Remove  -1. Stop \n");
-//        printf("Enter the value of the choice  you want to use : ");
-//        scanf("%d", &return_remove_add_choice);
-//
-//        //STOP
-//        if (return_remove_add_choice == -1) {
-//            continuing = 0;
-//        }
-//        //REMOVE
-//        else if(return_remove_add_choice == 2){
-//            printf("Enter the position in the list that you want to remove: ");
-//            scanf("%d", &pos_remove_list);
-//
-//            node *p_mem = root;
-//            for(int i = 0; i< pos_remove_list;i++){
-//                p_mem = p_mem->p_next;
-//            }
-//            libere_mem(p_mem);
-//        }
-//            //ADD
-//        else if (return_remove_add_choice == 1) {
-//
-//            printf("Enter the new memorie size you want to use: ");
-//            scanf("%d", &size_memory);
-//
-//
-//            if (strategie_choice == 1) {
-//                if (first_fit(&root, size_memory) == 0) {
-//                    printf("There is not a place for the size you ask for %d\n", size_memory);
-//                }
-//            } else if (strategie_choice == 2) {
-//                if (best_fit(&root, size_memory) == 0) {
-//                    printf("There is not a place for the size you ask for %d\n", size_memory);
-//                }
-//            } else if (strategie_choice == 3) {
-//                if (worst_fit(&root, size_memory) == 0) {
-//                    printf("There is not a place for the size you ask for %d\n", size_memory);
-//                }
-//            } else if (strategie_choice == 4) {
-//                if (next_fit(&root, &last_node_placed, size_memory) == 0) {
-//                    printf("There is not a place for th3e size you ask for %d\n", size_memory);
-//                }
-//
-//            }
-//        }
-//        affiche_parametres_memoire(root);
-//        affiche_etat_memoire(root);
-//
-//    }
-//
-//    free_all(root);
-//    return 0;
-//}

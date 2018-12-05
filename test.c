@@ -95,7 +95,7 @@ node *liberation_mem(node **root, int bloc_choice) {
         printf("\n");
 
         int n_blocs = (n_bloc_alloues(*root) + n_bloc_libres(*root));
-        if (bloc_choice >= 0 && bloc_choice <= n_blocs-1) {
+        if (bloc_choice >= 0 && bloc_choice <= n_blocs - 1) {
 
             node *select_node = *root;
             for (int i = 0; i < bloc_choice; i++) {
@@ -135,10 +135,14 @@ int main() {
     int strategie_choice;
     int size_memory;
     int mode;
+
     int fois;
     int i;
     char ligne[80];
     FILE *fichier = NULL;
+
+    node *root;
+    node *last_node_placed;
 
     printf("1:Test manuel 2:Script Automatique\n");
     printf("Choisir un mode de test: ");
@@ -152,8 +156,8 @@ int main() {
 
             size_memory = choix_taille_mem();
 
-            node *root = init_mem(size_memory);
-            node *last_node_placed = root;
+            root = init_mem(size_memory);
+            last_node_placed = root;
 
             while (continuing) {
 
@@ -170,40 +174,42 @@ int main() {
                 }
 
             }
+
+            free_all(&root);
+
             break;
 
-//        case 2:
-//            printf("OKOKOKOKOK");
-//            fichier = fopen("test.txt", "rt");
-//
-//            if (fichier != NULL) {
-//                fgets(ligne, 80, fichier); /*fin de fichier non atteinte*/
-//                sscanf(ligne, "%i,%i", &strategie_choice, &size_memory);
-//                node *root = init_mem(size_memory);
-//                node *last_node_placed = root;
-//                while (fgets(ligne, 80, fichier) != NULL) {
-//                    sscanf(ligne, "%i,%i,%i", &fois, &action, &size_memory);
-//                    printf("%i,%i,%i\n", fois, action, size_memory);
-//                    if (action == 1) {
-//                        for (i = 0; i < fois; i++) {
-//                            allocation_mem(root, last_node_placed, strategie_choice, size_memory);
-//                        }
-//                    } else if (action == 2) {
-//                        liberation_mem(root, fois);
-//                    }
-//                }
-//            }
-//            fclose(fichier);
-//            affiche_parametres_memoire(root);
-//            affiche_etat_memoire(root);
-//            break;
+        case 2:
+            printf("OK");
+            /*fichier = fopen("test.txt", "rt");
+
+            if (fichier != NULL) {
+                fgets(ligne, 80, fichier); *//*fin de fichier non atteinte*//*
+                sscanf(ligne, "%i,%i", &strategie_choice, &size_memory);
+                node *root = init_mem(size_memory);
+                node *last_node_placed = root;
+                while (fgets(ligne, 80, fichier) != NULL) {
+                    sscanf(ligne, "%i,%i,%i", &fois, &action, &size_memory);
+                    printf("%i,%i,%i\n", fois, action, size_memory);
+                    if (action == 1) {
+                        for (i = 0; i < fois; i++) {
+                            allocation_mem(root, last_node_placed, strategie_choice, size_memory);
+                        }
+                    } else if (action == 2) {
+                        liberation_mem(root, fois);
+                    }
+                }
+            }
+            fclose(fichier);
+            affiche_parametres_memoire(root);
+            affiche_etat_memoire(root);
+            free_all(&root);*/
+            break;
 
         default:
             printf("Choix de mode invalide");
             break;
     }
-
-    //free_all(root);
 
     return 0;
 }
