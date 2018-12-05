@@ -48,13 +48,7 @@ int choix_action(node *root) {
 }
 
 void allocation_mem(node **root, node **last_node_placed, int strategie_choice, int size_memory) {
-    if (size_memory == 0) {
-        printf("Saisir la taille du nouveau bloc: ");
-        scanf("%d", &size_memory);
-        printf("\n");
-    }
-
-    if (strategie_choice == 1) {
+   if (strategie_choice == 1) {
         if (first_fit(root, size_memory) == 0) {
             printf("Pas de place disponible correspondant à la demande (%d)\n", size_memory);
         }
@@ -73,59 +67,29 @@ void allocation_mem(node **root, node **last_node_placed, int strategie_choice, 
     }
 }
 
-node *liberation_mem(node **root, int bloc_choice) {
+int liberation_mem(node **root,node **last_node_placed, int bloc_choice) {
 
-    if (bloc_choice == 0) {
-        //affiche_etat_memoire(root);
-        //printf("%d\n", (n_bloc_alloues(root) + n_bloc_libres(root) - 1));
-//        if (bloc_choice > (n_bloc_alloues(root) + n_bloc_libres(root) - 1)) {
-//            printf("Le bloc %d choisi n'existe pas.\n", bloc_choice);
-//            printf("Bloc %d remplacé par le dernier bloc (%d)\n", bloc_choice,
-//                   (n_bloc_alloues(root) + n_bloc_libres(root) - 1));
-//            bloc_choice = (n_bloc_alloues(root) + n_bloc_libres(root) - 1);
-//        }
-//        if (bloc_choice < 0) {
-//            printf("Bloc %d chosen doesn't exist. \n", bloc_choice);
-//            printf("Bloc %d replaced by first bloc 0 \n", bloc_choice);
-//            bloc_choice = 0;
-//        }
+    int n_blocs = (n_bloc_alloues(*root) + n_bloc_libres(*root));
+    if (bloc_choice >= 0 && bloc_choice <= n_blocs - 1) {
 
-        printf("Saisir le numéro du bloc à libérer: ");
-        scanf("%d", &bloc_choice);
-        printf("\n");
-
-        int n_blocs = (n_bloc_alloues(*root) + n_bloc_libres(*root));
-        if (bloc_choice >= 0 && bloc_choice <= n_blocs - 1) {
-
-            node *select_node = *root;
-            for (int i = 0; i < bloc_choice; i++) {
-                select_node = select_node->p_next;
-            }
-
-            if (select_node->value->state == 1) {
-                return libere_mem(select_node);
-            } else {
-                printf("Le bloc choisi (%d) est déjà libre.\n", bloc_choice);
-            }
-
-        } else {
-            printf("Le bloc choisi (%d) n'existe pas.\n", bloc_choice);
-        }
-
-        return NULL;
-
-
-    } else if (bloc_choice > 0) {
         node *select_node = *root;
         for (int i = 0; i < bloc_choice; i++) {
-            libere_mem(select_node);
-            affiche_etat_memoire(*root);
             select_node = select_node->p_next;
         }
 
-        return NULL;
+        if (select_node->value->state == 1) {
+            return libere_mem(select_node, root, last_node_placed);
+        } else {
+            printf("Le bloc choisi (%d) est déjà libre.\n", bloc_choice);
+        }
 
+    } else {
+        printf("Le bloc choisi (%d) n'existe pas.\n", bloc_choice);
     }
+
+    return 0;
+
+
 }
 
 int main() {
@@ -166,9 +130,19 @@ int main() {
 
                 action = choix_action(root);
                 if (action == 1) {
-                    allocation_mem(&root, &last_node_placed, strategie_choice, 0);
+                    int size_memory;
+                    printf("Saisir la taille du nouveau bloc: ");
+                    scanf("%d", &size_memory);
+                    printf("\n");
+
+                    allocation_mem(&root, &last_node_placed, strategie_choice, size_memory);;
                 } else if (action == 2) {
-                    liberation_mem(&root, 0);
+
+                    int bloc_choice;
+                    printf("Saisir le numéro du bloc à libérer: ");
+                    scanf("%d", &bloc_choice);
+                    printf("\n");
+                    liberation_mem(&root, &last_node_placed, bloc_choice);
                 } else if (action == -1) {
                     continuing = 0;
                 }

@@ -19,7 +19,7 @@ node *init_mem(int size_memory);
 
 node *allou_mem(int size_bloc, struct node *free_node);
 
-node *libere_mem(node *node_to_liberate);
+int libere_mem(node *node_to_liberate, node **memory_root, node **last_node_used);
 
 int n_bloc_libres(node *memory_root);
 
@@ -43,6 +43,6 @@ int best_fit(node **memory_root, int size);
 
 int worst_fit(node **memory_root, int size);
 
-int next_fit(node **memory_root, node **start_node, int size);
+int next_fit(node **memory_root, node **previous_starting_node, int size);
 
 void free_all(node **memory_root);

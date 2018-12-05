@@ -47,7 +47,7 @@ node *allou_mem(int new_block_size, node *free_node) {
     return pNode;
 }
 
-node *libere_mem(node *lib_node) {
+int libere_mem(node *lib_node, node **memory_root, node **last_used_node) {
 
     lib_node->value->state = 0;
 
@@ -62,6 +62,7 @@ node *libere_mem(node *lib_node) {
         if (lib_node->p_prev != NULL) {
             lib_node->p_prev->p_next = lib_node;
         }
+        *memory_root = lib_node;
         free(prev_node->value);
         free(prev_node);
     }
@@ -77,7 +78,7 @@ node *libere_mem(node *lib_node) {
         free(next_node);
     }
 
-    return lib_node;
+    return 1;
 }
 
 int n_bloc_libres(node *memory_root) {
