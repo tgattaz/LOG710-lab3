@@ -47,24 +47,29 @@ int choix_action(node *root) {
     return action;
 }
 
-void allocation_mem(node **root, node **last_node_placed, int strategie_choice, int size_memory) {
+int allocation_mem(node **root, node **last_node_placed, int strategie_choice, int size_memory) {
    if (strategie_choice == 1) {
         if (first_fit(root, size_memory) == 0) {
             printf("Pas de place disponible correspondant à la demande (%d)\n", size_memory);
+            return 0;
         }
     } else if (strategie_choice == 2) {
         if (best_fit(root, size_memory) == 0) {
             printf("Pas de place disponible correspondant à la demande (%d)\n", size_memory);
+            return 0;
         }
     } else if (strategie_choice == 3) {
         if (worst_fit(root, size_memory) == 0) {
             printf("Pas de place disponible correspondant à la demande (%d)\n", size_memory);
+            return 0;
         }
     } else if (strategie_choice == 4) {
         if (next_fit(root, last_node_placed, size_memory) == 0) {
             printf("Pas de place disponible correspondant à la demande (%d)\n", size_memory);
+            return 0;
         }
     }
+   return 1;
 }
 
 int liberation_mem(node **root, int bloc_choice) {
@@ -99,6 +104,7 @@ int main() {
     int strategie_choice;
     int size_memory;
     int mode;
+    int counter =0;
 
     char ligne[80];
     FILE *fichier = NULL;
@@ -133,20 +139,24 @@ int main() {
                     scanf("%d", &size_memory);
                     printf("\n");
 
-                    allocation_mem(&root, &last_node_placed, strategie_choice, size_memory);;
+                    if(allocation_mem(&root, &last_node_placed, strategie_choice, size_memory) == 0){
+                        counter ++;
+                    }
                 } else if (action == 2) {
 
                     int bloc_choice;
                     printf("Saisir le numéro du bloc à libérer: ");
                     scanf("%d", &bloc_choice);
                     printf("\n");
-                    liberation_mem(&root, bloc_choice);
+                    
+                    if(liberation_mem(&root, bloc_choice) == 0){
+                        counter ++;
+                    }
                 } else if (action == -1) {
                     continuing = 0;
                 }
 
             }
-
             free_all(&root);
 
             break;
@@ -163,14 +173,22 @@ int main() {
                     sscanf(ligne, "%i,%i",&action, &size_memory);
                     printf("%i,%i\n", action, size_memory);
                     if (action == 1) {
-                        allocation_mem(&root, &last_node_placed, strategie_choice, size_memory);
+                        if(allocation_mem(&root, &last_node_placed, strategie_choice, size_memory) == 0){
+                            counter ++;
+                        }
                     } else if (action == 2) {
-                        liberation_mem(&root, size_memory);
+                        if(liberation_mem(&root, size_memory) == 0){
+                            counter ++;
+                        }
                     }
-                    affiche_etat_memoire(root);
                 }
             }
             fclose(fichier);
+
+            printf("nombre d'erreur %d \n",counter);
+            printf("nombre bloc libre %d \n", n_bloc_libres(root));
+
+            affiche_etat_memoire(root);
             affiche_parametres_memoire(root);
             free_all(&root);
             break;
