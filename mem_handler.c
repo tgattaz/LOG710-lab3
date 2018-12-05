@@ -47,7 +47,7 @@ node *allou_mem(int new_block_size, node *free_node) {
     return pNode;
 }
 
-int libere_mem(node *lib_node, node **memory_root, node **last_used_node) {
+int libere_mem(node *lib_node, node **memory_root) {
 
     lib_node->value->state = 0;
 
@@ -62,7 +62,9 @@ int libere_mem(node *lib_node, node **memory_root, node **last_used_node) {
         if (lib_node->p_prev != NULL) {
             lib_node->p_prev->p_next = lib_node;
         }
-        *memory_root = lib_node;
+        if(prev_node == *memory_root){
+            *memory_root = lib_node;
+        }
         free(prev_node->value);
         free(prev_node);
     }
@@ -77,6 +79,7 @@ int libere_mem(node *lib_node, node **memory_root, node **last_used_node) {
         free(next_node->value);
         free(next_node);
     }
+
 
     return 1;
 }
@@ -264,7 +267,7 @@ int best_fit(node **memory_root, int size) {
 
         if (p_mem->value->state == 0 && p_mem->value->size >= size) {
 
-            delta = abs(p_mem->value->size - size);
+            delta = p_mem->value->size - size;
 
             if (delta <= min_delta) {
                 min_delta = delta;
@@ -299,7 +302,7 @@ int worst_fit(node **memory_root, int size) {
 
         if (p_mem->value->state == 0 && p_mem->value->size >= size) {
 
-            delta = abs(size - p_mem->value->size);
+            delta = p_mem->value->size - size;
 
             if (delta >= max_delta) {
                 max_delta = delta;

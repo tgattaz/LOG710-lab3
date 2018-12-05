@@ -19,7 +19,7 @@ node *init_mem(int size_memory);
 
 node *allou_mem(int size_bloc, struct node *free_node);
 
-int libere_mem(node *node_to_liberate, node **memory_root, node **last_node_used);
+int libere_mem(node *node_to_liberate, node **memory_root);
 
 int n_bloc_libres(node *memory_root);
 

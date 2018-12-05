@@ -78,7 +78,7 @@ int liberation_mem(node **root,node **last_node_placed, int bloc_choice) {
         }
 
         if (select_node->value->state == 1) {
-            return libere_mem(select_node, root, last_node_placed);
+            return libere_mem(select_node, root);
         } else {
             printf("Le bloc choisi (%d) est déjà libre.\n", bloc_choice);
         }
