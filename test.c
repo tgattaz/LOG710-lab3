@@ -67,7 +67,7 @@ void allocation_mem(node **root, node **last_node_placed, int strategie_choice, 
     }
 }
 
-int liberation_mem(node **root,node **last_node_placed, int bloc_choice) {
+int liberation_mem(node **root, int bloc_choice) {
 
     int n_blocs = (n_bloc_alloues(*root) + n_bloc_libres(*root));
     if (bloc_choice >= 0 && bloc_choice <= n_blocs - 1) {
@@ -100,8 +100,6 @@ int main() {
     int size_memory;
     int mode;
 
-    int fois;
-    int i;
     char ligne[80];
     FILE *fichier = NULL;
 
@@ -142,7 +140,7 @@ int main() {
                     printf("Saisir le numéro du bloc à libérer: ");
                     scanf("%d", &bloc_choice);
                     printf("\n");
-                    liberation_mem(&root, &last_node_placed, bloc_choice);
+                    liberation_mem(&root, bloc_choice);
                 } else if (action == -1) {
                     continuing = 0;
                 }
@@ -154,30 +152,27 @@ int main() {
             break;
 
         case 2:
-            printf("OK");
-            /*fichier = fopen("test.txt", "rt");
+            fichier = fopen("test.txt", "rt");
 
             if (fichier != NULL) {
-                fgets(ligne, 80, fichier); *//*fin de fichier non atteinte*//*
+                fgets(ligne, 80, fichier); /*fin de fichier non atteinte*/
                 sscanf(ligne, "%i,%i", &strategie_choice, &size_memory);
                 node *root = init_mem(size_memory);
                 node *last_node_placed = root;
                 while (fgets(ligne, 80, fichier) != NULL) {
-                    sscanf(ligne, "%i,%i,%i", &fois, &action, &size_memory);
-                    printf("%i,%i,%i\n", fois, action, size_memory);
+                    sscanf(ligne, "%i,%i",&action, &size_memory);
+                    printf("%i,%i\n", action, size_memory);
                     if (action == 1) {
-                        for (i = 0; i < fois; i++) {
-                            allocation_mem(root, last_node_placed, strategie_choice, size_memory);
-                        }
+                        allocation_mem(&root, &last_node_placed, strategie_choice, size_memory);
                     } else if (action == 2) {
-                        liberation_mem(root, fois);
+                        liberation_mem(&root, size_memory);
                     }
+                    affiche_etat_memoire(root);
                 }
             }
             fclose(fichier);
             affiche_parametres_memoire(root);
-            affiche_etat_memoire(root);
-            free_all(&root);*/
+            free_all(&root);
             break;
 
         default:
