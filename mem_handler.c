@@ -1,4 +1,4 @@
-#include "main.h"
+#include "mem_handler.h"
 
 node *init_mem(int size_memory) {
 
