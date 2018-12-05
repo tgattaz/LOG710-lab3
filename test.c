@@ -167,7 +167,6 @@ int main() {
                     liberation_mem(&root, 0);
                 } else if (action == -1) {
                     continuing = 0;
-                    //free_all(root);
                 }
 
             }
@@ -203,6 +202,9 @@ int main() {
             printf("Choix de mode invalide");
             break;
     }
+
+    //free_all(root);
+
     return 0;
 }
 
