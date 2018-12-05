@@ -374,89 +374,78 @@ void free_all(node *memory_root) {
     }
 }
 
-int choix_strategie(){
-    int strategie_choice;
-    printf("1. First-fit  2. Best-fit  3. Worst-fit  4. Next-fit \n");
-    printf("Enter the value of the strategie you want to use : ");
-    scanf("%d", &strategie_choice);
-    if((strategie_choice > 4) || (strategie_choice < 1)){
-        printf("please use a valid answer \n");
-        return 0;
-    }
-    return strategie_choice;
-}
-int main() {
-
-    int continuing = 1;
-    int strategie_choice;
-    int size_memory;
-    int return_remove_add_choice=0;
-    int pos_remove_list =0;
-
-    strategie_choice=choix_strategie();
-
-    printf("\nEnter the total size memory you need : ");
-    scanf("%d", &size_memory);
-    if((size_memory > 100000) || (size_memory < 0)){
-        printf("please use a valid anwser \n");
-        return 0;
-    }
-
-    node *root = init_mem(size_memory);
-    node *last_node_placed = root;
-
-    while (continuing) {
-
-        printf("1. Add  2. Remove  -1. Stop \n");
-        printf("Enter the value of the choice  you want to use : ");
-        scanf("%d", &return_remove_add_choice);
-
-        //STOP
-        if (return_remove_add_choice == -1) {
-            continuing = 0;
-        }
-        //REMOVE
-        else if(return_remove_add_choice == 2){
-            printf("Enter the position in the list that you want to remove: ");
-            scanf("%d", &pos_remove_list);
-
-            node *p_mem = root;
-            for(int i = 0; i< pos_remove_list;i++){
-                p_mem = p_mem->p_next;
-            }
-            libere_mem(p_mem);
-        }
-            //ADD
-        else if (return_remove_add_choice == 1) {
-
-            printf("Enter the new memorie size you want to use: ");
-            scanf("%d", &size_memory);
-
-
-            if (strategie_choice == 1) {
-                if (first_fit(&root, size_memory) == 0) {
-                    printf("There is not a place for the size you ask for %d\n", size_memory);
-                }
-            } else if (strategie_choice == 2) {
-                if (best_fit(&root, size_memory) == 0) {
-                    printf("There is not a place for the size you ask for %d\n", size_memory);
-                }
-            } else if (strategie_choice == 3) {
-                if (worst_fit(&root, size_memory) == 0) {
-                    printf("There is not a place for the size you ask for %d\n", size_memory);
-                }
-            } else if (strategie_choice == 4) {
-                if (next_fit(&root, &last_node_placed, size_memory) == 0) {
-                    printf("There is not a place for th3e size you ask for %d\n", size_memory);
-                }
-
-            }
-        }
-        affiche_parametres_memoire(root);
-        affiche_etat_memoire(root);
-
-    }
-
-    free_all(root);
-    return 0;
-}
+//int main() {
+//
+//    int continuing = 1;
+//    int strategie_choice;
+//    int size_memory;
+//    int return_remove_add_choice=0;
+//    int pos_remove_list =0;
+//
+//    strategie_choice=choix_strategie();
+//
+//    printf("\nEnter the total size memory you need : ");
+//    scanf("%d", &size_memory);
+//    if((size_memory > 100000) || (size_memory < 0)){
+//        printf("please use a valid anwser \n");
+//        return 0;
+//    }
+//
+//    node *root = init_mem(size_memory);
+//    node *last_node_placed = root;
+//
+//    while (continuing) {
+//
+//        printf("1. Add  2. Remove  -1. Stop \n");
+//        printf("Enter the value of the choice  you want to use : ");
+//        scanf("%d", &return_remove_add_choice);
+//
+//        //STOP
+//        if (return_remove_add_choice == -1) {
+//            continuing = 0;
+//        }
+//        //REMOVE
+//        else if(return_remove_add_choice == 2){
+//            printf("Enter the position in the list that you want to remove: ");
+//            scanf("%d", &pos_remove_list);
+//
+//            node *p_mem = root;
+//            for(int i = 0; i< pos_remove_list;i++){
+//                p_mem = p_mem->p_next;
+//            }
+//            libere_mem(p_mem);
+//        }
+//            //ADD
+//        else if (return_remove_add_choice == 1) {
+//
+//            printf("Enter the new memorie size you want to use: ");
+//            scanf("%d", &size_memory);
+//
+//
+//            if (strategie_choice == 1) {
+//                if (first_fit(&root, size_memory) == 0) {
+//                    printf("There is not a place for the size you ask for %d\n", size_memory);
+//                }
+//            } else if (strategie_choice == 2) {
+//                if (best_fit(&root, size_memory) == 0) {
+//                    printf("There is not a place for the size you ask for %d\n", size_memory);
+//                }
+//            } else if (strategie_choice == 3) {
+//                if (worst_fit(&root, size_memory) == 0) {
+//                    printf("There is not a place for the size you ask for %d\n", size_memory);
+//                }
+//            } else if (strategie_choice == 4) {
+//                if (next_fit(&root, &last_node_placed, size_memory) == 0) {
+//                    printf("There is not a place for th3e size you ask for %d\n", size_memory);
+//                }
+//
+//            }
+//        }
+//        affiche_parametres_memoire(root);
+//        affiche_etat_memoire(root);
+//
+//    }
+//
+//    free_all(root);
+//    return 0;
+//}
