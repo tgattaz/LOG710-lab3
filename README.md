@@ -1,1 +1,1 @@
-Projet de log710
+Laboratoire 3 du cours LOG710 : gestion de la mémoire.
